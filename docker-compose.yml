@@ -13,18 +13,5 @@ services:
     volumes:
       - mongodb_data:/data/db
 
-  nestjs-api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: nestjs-api
-    restart: always
-    ports:
-      - "3000:3000"
-    depends_on:
-      - mongodb
-    environment:
-      MONGODB_URI: mongodb://root:example@mongodb:27017/nestjs_database
-
 volumes:
   mongodb_data:
