@@ -6,10 +6,12 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { CircuitsService } from './circuits.service';
 import { CreateCircuitDto } from './dto/create-circuit.dto';
 import { UpdateCircuitDto } from './dto/update-circuit.dto';
+import { CircuitFilterQuery } from './interfaces/CircuitFilterQuery';
 
 @Controller('circuits')
 export class CircuitsController {
@@ -21,8 +23,8 @@ export class CircuitsController {
   }
 
   @Get()
-  findAll() {
-    return this.circuitsService.findAll();
+  findAll(@Query() circuitFilterQuery: CircuitFilterQuery) {
+    return this.circuitsService.findAll(circuitFilterQuery);
   }
 
   @Get(':id')

@@ -4,6 +4,7 @@ import { UpdateCircuitDto } from './dto/update-circuit.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CircuitDocument } from './entities/circuit.entity';
+import { CircuitFilterQuery } from './interfaces/CircuitFilterQuery';
 
 @Injectable()
 export class CircuitsService {
@@ -17,7 +18,7 @@ export class CircuitsService {
       const newCircuit = await this.circuitModel.create({
         name,
         length,
-        creationDate: new Date().toISOString(),
+        createdAt: new Date().toISOString(),
       });
       return newCircuit;
     } catch (error) {
@@ -28,9 +29,11 @@ export class CircuitsService {
     }
   }
 
-  async findAll() {
+  async findAll(circuitFilterQuery: CircuitFilterQuery) {
     try {
-      const circuits = await this.circuitModel.find().sort('-creationDate');
+      const circuits = await this.circuitModel
+        .find(circuitFilterQuery)
+        .sort('-createdAt');
       return {
         data: circuits,
         total: circuits.length,
