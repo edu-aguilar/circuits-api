@@ -5,19 +5,19 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CircuitDocument } from './entities/circuit.entity';
 import { CircuitFilterQuery } from './interfaces/CircuitFilterQuery';
+import { ProvinceDocument } from 'src/provinces/entities/province.entity';
 
 @Injectable()
 export class CircuitsService {
   constructor(
     @InjectModel('Circuit') private circuitModel: Model<CircuitDocument>,
+    @InjectModel('Province') private provinceModel: Model<ProvinceDocument>,
   ) {}
 
   async create(createCircuitDto: CreateCircuitDto) {
     try {
-      const { name, length } = createCircuitDto;
       const newCircuit = await this.circuitModel.create({
-        name,
-        length,
+        ...createCircuitDto,
         createdAt: new Date().toISOString(),
       });
       return newCircuit;
@@ -30,10 +30,23 @@ export class CircuitsService {
   }
 
   async findAll(circuitFilterQuery: CircuitFilterQuery) {
+    const query: any = {};
+
+    if (circuitFilterQuery.name) {
+      query.name = { $regex: new RegExp(circuitFilterQuery.name, 'i') };
+    }
+    if (circuitFilterQuery.provinceId) {
+      query.provinceId = circuitFilterQuery.provinceId;
+    }
+    if (circuitFilterQuery.regionId) {
+      const provincesInRegion = await this.getProvincesByRegion(
+        circuitFilterQuery.regionId,
+      );
+      query.provinceId = { $in: provincesInRegion };
+    }
+
     try {
-      const circuits = await this.circuitModel
-        .find(circuitFilterQuery)
-        .sort('-createdAt');
+      const circuits = await this.circuitModel.find(query).sort('-name');
       return {
         data: circuits,
         total: circuits.length,
@@ -74,5 +87,12 @@ export class CircuitsService {
     if (!deletedCircuit) {
       throw new HttpException('Circuit not found', HttpStatus.NOT_FOUND);
     }
+  }
+
+  private async getProvincesByRegion(regionId: string): Promise<string[]> {
+    const provinces = await this.provinceModel
+      .find({ regionId })
+      .distinct('_id');
+    return provinces.map((id) => id.toString());
   }
 }
