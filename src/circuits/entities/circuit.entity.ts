@@ -5,7 +5,9 @@ export type CircuitDocument = Circuit & Document<Types.ObjectId>;
 
 @Schema({ collection: 'circuits' })
 export class Circuit {
-  @Prop()
+  @Prop({
+    unique: true,
+  })
   name: string;
 
   @Prop()
