@@ -27,7 +27,7 @@ export class ProvincesController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.provincesService.findOne(+id);
+    return this.provincesService.findOne(id);
   }
 
   @Patch(':id')
@@ -35,11 +35,11 @@ export class ProvincesController {
     @Param('id') id: string,
     @Body() updateProvinceDto: UpdateProvinceDto,
   ) {
-    return this.provincesService.update(+id, updateProvinceDto);
+    return this.provincesService.update(id, updateProvinceDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.provincesService.remove(+id);
+    return this.provincesService.remove(id);
   }
 }

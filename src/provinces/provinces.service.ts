@@ -42,15 +42,20 @@ export class ProvincesService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} province`;
+  async findOne(id: string) {
+    const province = await this.provinceModel.findById(id).exec();
+
+    if (!province) {
+      throw new HttpException('Province not found', HttpStatus.NOT_FOUND);
+    }
+    return province;
   }
 
-  update(id: number, updateProvinceDto: UpdateProvinceDto) {
+  update(id: string, updateProvinceDto: UpdateProvinceDto) {
     return `This action updates a #${id} province with ${updateProvinceDto}`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} province`;
   }
 }
