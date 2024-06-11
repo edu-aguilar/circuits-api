@@ -2,9 +2,12 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+let app;
+
+NestFactory.create(AppModule).then((_app) => {
+  app = _app;
   app.useGlobalPipes(new ValidationPipe({ stopAtFirstError: true }));
-  await app.listen(process.env.PORT || 3000);
-}
-bootstrap();
+  app.listen(process.env.PORT || 3000);
+});
+
+module.exports = app;
