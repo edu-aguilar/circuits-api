@@ -19,16 +19,22 @@ export class CircuitsController {
 
   @Post()
   create(@Body() createCircuitDto: CreateCircuitDto) {
+    console.log('POST circuit endpoint');
+
     return this.circuitsService.create(createCircuitDto);
   }
 
   @Get()
   findAll(@Query() circuitFilterQuery: CircuitFilterQuery) {
+    console.log('GET circuit endpoint');
+
     return this.circuitsService.findAll(circuitFilterQuery);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
+    console.log('GET by id circuit endpoint');
+
     return this.circuitsService.findOne(id);
   }
 
@@ -39,6 +45,8 @@ export class CircuitsController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
+    console.log('DELETE circuit endpoint');
+
     return this.circuitsService.remove(id);
   }
 }

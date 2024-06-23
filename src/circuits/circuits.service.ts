@@ -20,6 +20,8 @@ export class CircuitsService {
         ...createCircuitDto,
         createdAt: new Date().toISOString(),
       });
+      console.log('circuit created: ', newCircuit);
+
       return newCircuit;
     } catch (error) {
       throw new HttpException(
@@ -47,6 +49,8 @@ export class CircuitsService {
 
     try {
       const circuits = await this.circuitModel.find(query).sort('-name');
+      console.log('circuits found: ', circuits);
+
       return {
         data: circuits,
         total: circuits.length,
@@ -65,6 +69,9 @@ export class CircuitsService {
     if (!circuit) {
       throw new HttpException('Circuit not found', HttpStatus.NOT_FOUND);
     }
+
+    console.log('circuit found: ', circuit);
+
     return circuit;
   }
 
@@ -84,9 +91,12 @@ export class CircuitsService {
 
   async remove(id: string) {
     const deletedCircuit = await this.circuitModel.findByIdAndDelete(id);
+
     if (!deletedCircuit) {
       throw new HttpException('Circuit not found', HttpStatus.NOT_FOUND);
     }
+
+    console.log(`circuit with id ${id} removed successfully`);
   }
 
   private async getProvincesByRegion(regionId: string): Promise<string[]> {
