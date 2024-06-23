@@ -14,7 +14,31 @@ export class Circuit {
   provinceId: Types.ObjectId;
 
   @Prop()
-  length?: number;
+  address: string;
+
+  @Prop({ type: { lat: String, lng: String } })
+  location: { lat: string; lng: string };
+
+  @Prop()
+  images: string[];
+
+  @Prop()
+  website?: string;
+
+  @Prop({ type: { half: Number, complete: Number } })
+  price?: { half: number; complete: number };
+
+  @Prop({ type: { instagram: String, facebook: String } })
+  social?: { instagram: string; facebook: string };
+
+  @Prop()
+  distance?: number;
+
+  @Prop()
+  width?: number;
+
+  @Prop({ type: { 160: String, 190: String } })
+  settings?: { 160: string; 190: string };
 }
 
 export const CircuitSchema = SchemaFactory.createForClass(Circuit);
