@@ -27,3 +27,13 @@ jobs:
           node-version: '20.x'
       - run: npm install
       - run: npm run test
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Deploy to production
+        uses: johnbeynon/render-deploy-action@v0.0.8
+        with:
+          service-id: ${{ secrets.RENDER_SERVICE_ID }}
+          api-key: ${{ secrets.RENDER_API_KEY }}
+          wait-for-success: true
