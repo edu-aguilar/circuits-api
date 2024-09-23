@@ -39,6 +39,9 @@ export class CircuitsService {
     if (circuitFilterQuery.name) {
       query.name = { $regex: new RegExp(circuitFilterQuery.name, 'i') };
     }
+    if (circuitFilterQuery.nameUrl) {
+      query.nameUrl = { $regex: new RegExp(circuitFilterQuery.nameUrl, 'i') };
+    }
     if (circuitFilterQuery.provinceId) {
       query.provinceId = circuitFilterQuery.provinceId;
     }
