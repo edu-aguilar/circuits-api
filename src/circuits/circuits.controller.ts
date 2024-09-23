@@ -40,6 +40,8 @@ export class CircuitsController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCircuitDto: UpdateCircuitDto) {
+    console.log('PATCH circuit endpoint');
+
     return this.circuitsService.update(id, updateCircuitDto);
   }
 
