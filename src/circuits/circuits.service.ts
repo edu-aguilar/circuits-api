@@ -111,10 +111,8 @@ export class CircuitsService {
   private generateUrlName(name: string) {
     const nameUrl = name
       .toLowerCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .replace(/[^a-z0-9 -]/g, '')
       .replace(/\s+/g, '-')
+      .replace(/[^a-z0-9-ñÑáéíóúÁÉÍÓÚ]/g, '')
       .trim();
 
     return this.removeAccents(nameUrl);
