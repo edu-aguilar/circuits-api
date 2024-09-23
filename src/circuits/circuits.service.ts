@@ -16,8 +16,10 @@ export class CircuitsService {
 
   async create(createCircuitDto: CreateCircuitDto) {
     try {
+      const nameUrl = this.generateUrlName(createCircuitDto.name);
       const newCircuit = await this.circuitModel.create({
         ...createCircuitDto,
+        nameUrl,
         createdAt: new Date().toISOString(),
       });
       console.log('circuit created: ', newCircuit);
@@ -104,5 +106,39 @@ export class CircuitsService {
       .find({ regionId })
       .distinct('_id');
     return provinces.map((id) => id.toString());
+  }
+
+  private generateUrlName(name: string) {
+    const nameUrl = name
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9 -]/g, '')
+      .replace(/\s+/g, '-')
+      .trim();
+
+    return this.removeAccents(nameUrl);
+  }
+
+  private removeAccents(str: string): string {
+    const accents: { [key: string]: string } = {
+      á: 'a',
+      é: 'e',
+      í: 'i',
+      ó: 'o',
+      ú: 'u',
+      Á: 'A',
+      É: 'E',
+      Í: 'I',
+      Ó: 'O',
+      Ú: 'U',
+      ñ: 'n',
+      Ñ: 'N',
+    };
+
+    return str
+      .split('')
+      .map((char) => accents[char] || char)
+      .join('');
   }
 }

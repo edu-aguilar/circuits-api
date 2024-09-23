@@ -10,6 +10,9 @@ export class Circuit {
   })
   name: string;
 
+  @Prop()
+  nameUrl: string;
+
   @Prop({ type: Types.ObjectId, ref: 'Province' })
   provinceId: Types.ObjectId;
 
