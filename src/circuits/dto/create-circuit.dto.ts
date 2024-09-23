@@ -72,6 +72,7 @@ export class CreateCircuitDto {
   @IsString({ message: 'Field $property should be a string.' })
   address: string;
 
+  @IsNotEmpty({ message: 'Field $property cannot be empty.' })
   @ValidateNested({ each: true })
   @Type(() => LocationDTO)
   location: LocationDTO;
