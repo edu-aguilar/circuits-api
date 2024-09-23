@@ -40,7 +40,7 @@ export class CircuitsService {
       query.name = { $regex: new RegExp(circuitFilterQuery.name, 'i') };
     }
     if (circuitFilterQuery.nameUrl) {
-      query.nameUrl = { $regex: new RegExp(circuitFilterQuery.nameUrl, 'i') };
+      query.nameUrl = circuitFilterQuery.nameUrl;
     }
     if (circuitFilterQuery.provinceId) {
       query.provinceId = circuitFilterQuery.provinceId;
