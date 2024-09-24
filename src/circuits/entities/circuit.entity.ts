@@ -46,8 +46,8 @@ export class Circuit {
   @Prop()
   width?: number;
 
-  @Prop({ type: { 160: Number, 190: Number } })
-  settings?: { 160?: number; 190?: number };
+  @Prop({ type: { 160: String, 190: String } })
+  settings?: { 160?: string; 190?: string };
 }
 
 export const CircuitSchema = SchemaFactory.createForClass(Circuit);
