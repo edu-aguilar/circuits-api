@@ -85,7 +85,17 @@ export class CreateCircuitDto {
   @IsOptional()
   @IsNotEmpty({ message: 'Field $property cannot be empty.' })
   @IsString({ message: 'Field $property should be a string.' })
+  description: string;
+
+  @IsOptional()
+  @IsNotEmpty({ message: 'Field $property cannot be empty.' })
+  @IsString({ message: 'Field $property should be a string.' })
   website: string;
+
+  @IsOptional()
+  @IsNotEmpty({ message: 'Field $property cannot be empty.' })
+  @IsString({ message: 'Field $property should be a string.' })
+  phone: string;
 
   @IsOptional()
   @IsNotEmpty({ message: 'Field $property cannot be empty.' })
