@@ -4,6 +4,7 @@ import { ProvincesModule } from './provinces/provinces.module';
 import { RegionsModule } from './regions/regions.module';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
+import { AuthMiddleware } from './auth/auth.middleware';
 
 @Module({
   imports: [
@@ -15,5 +16,6 @@ import { DatabaseModule } from './database/database.module';
     ProvincesModule,
     RegionsModule,
   ],
+  providers: [AuthMiddleware],
 })
 export class AppModule {}

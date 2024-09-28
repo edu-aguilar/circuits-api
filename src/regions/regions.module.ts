@@ -1,8 +1,14 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { RegionsService } from './regions.service';
 import { RegionsController } from './regions.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { RegionSchema } from './entities/region.entity';
+import { AuthMiddleware } from 'src/auth/auth.middleware';
 
 @Module({
   imports: [
@@ -11,4 +17,11 @@ import { RegionSchema } from './entities/region.entity';
   controllers: [RegionsController],
   providers: [RegionsService],
 })
-export class RegionsModule {}
+export class RegionsModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthMiddleware)
+      .exclude({ path: 'regions', method: RequestMethod.GET }, 'regions/(.*)')
+      .forRoutes(RegionsController);
+  }
+}

@@ -10,12 +10,14 @@ import {
 import { ProvincesService } from './provinces.service';
 import { CreateProvinceDto } from './dto/create-province.dto';
 import { UpdateProvinceDto } from './dto/update-province.dto';
+import { Owner } from '../auth/owner.decorator';
 
 @Controller('provinces')
 export class ProvincesController {
   constructor(private readonly provincesService: ProvincesService) {}
 
   @Post()
+  @Owner()
   create(@Body() createProvinceDto: CreateProvinceDto) {
     return this.provincesService.create(createProvinceDto);
   }
@@ -31,6 +33,7 @@ export class ProvincesController {
   }
 
   @Patch(':id')
+  @Owner()
   update(
     @Param('id') id: string,
     @Body() updateProvinceDto: UpdateProvinceDto,
@@ -39,6 +42,7 @@ export class ProvincesController {
   }
 
   @Delete(':id')
+  @Owner()
   remove(@Param('id') id: string) {
     return this.provincesService.remove(id);
   }
