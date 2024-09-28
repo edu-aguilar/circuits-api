@@ -22,11 +22,13 @@ export class AuthMiddleware implements NestMiddleware {
 
     protectRoute(req, res, (error) => {
       if (error) {
+        // this throws kills the API. investigate it
         throw new UnauthorizedException('Unauthorized', error.message);
       }
 
       getUser(req, res, (error) => {
         if (error) {
+          // this throws kills the API. investigate it
           throw new UnauthorizedException('Unauthorized', error.message);
         }
 

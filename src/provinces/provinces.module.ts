@@ -1,8 +1,14 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { ProvincesService } from './provinces.service';
 import { ProvincesController } from './provinces.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ProvinceSchema } from './entities/province.entity';
+import { AuthMiddleware } from 'src/auth/auth.middleware';
 
 @Module({
   imports: [
@@ -11,4 +17,14 @@ import { ProvinceSchema } from './entities/province.entity';
   controllers: [ProvincesController],
   providers: [ProvincesService],
 })
-export class ProvincesModule {}
+export class ProvincesModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthMiddleware)
+      .exclude(
+        { path: 'provinces', method: RequestMethod.GET },
+        'provinces/(.*)',
+      )
+      .forRoutes(ProvincesController);
+  }
+}
