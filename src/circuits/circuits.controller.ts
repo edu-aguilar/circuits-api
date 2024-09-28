@@ -12,12 +12,14 @@ import { CircuitsService } from './circuits.service';
 import { CreateCircuitDto } from './dto/create-circuit.dto';
 import { UpdateCircuitDto } from './dto/update-circuit.dto';
 import { CircuitFilterQuery } from './interfaces/CircuitFilterQuery';
+import { Owner } from '../auth/owner.decorator';
 
 @Controller('circuits')
 export class CircuitsController {
   constructor(private readonly circuitsService: CircuitsService) {}
 
   @Post()
+  @Owner()
   create(@Body() createCircuitDto: CreateCircuitDto) {
     console.log('POST circuit endpoint');
 
@@ -39,6 +41,7 @@ export class CircuitsController {
   }
 
   @Patch(':id')
+  @Owner()
   update(@Param('id') id: string, @Body() updateCircuitDto: UpdateCircuitDto) {
     console.log('PATCH circuit endpoint');
 
@@ -46,6 +49,7 @@ export class CircuitsController {
   }
 
   @Delete(':id')
+  @Owner()
   remove(@Param('id') id: string) {
     console.log('DELETE circuit endpoint');
 
