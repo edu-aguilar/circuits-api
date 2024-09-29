@@ -38,11 +38,11 @@ jobs:
           api-key: ${{ secrets.RENDER_API_KEY }}
           wait-for-success: true
   deploy-fly:
-    name: Deploy app
     runs-on: ubuntu-latest
+    needs: test
     steps:
       - uses: actions/checkout@v4
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: flyctl deploy --remote-only
+      - run: flyctl deploy --remote-only -a circuits-api
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
