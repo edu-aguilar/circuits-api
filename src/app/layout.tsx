@@ -7,6 +7,8 @@ import { inter } from "./fonts";
 import { routes } from "./common/routes";
 import { GoogleAnalytics } from "./common/ui/components/GoogleAnalytics";
 import { Suspense } from "react";
+import { AuthActions } from "./common/ui/components/AuthActions";
+import { AdSense } from "./common/ui/components/AdSense";
 
 export const metadata: Metadata = {
   title:
@@ -21,7 +23,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="es">
+      <head>
+        <AdSense pid={"pub-6477691629525796"} />
+      </head>
       <body
         className={`${inter.className} antialiased flex flex-col min-h-screen	`}
       >
@@ -37,6 +42,7 @@ export default function RootLayout({
           </Link>
           <nav className="grow flex justify-end gap-4">
             <Link href={routes.circuits.path}>Circuitos</Link>
+            <AuthActions></AuthActions>
           </nav>
         </header>
         <main className="grow">{children}</main>
