@@ -10,7 +10,7 @@ import { getUser, protectRoute } from '@kinde-oss/kinde-node-express';
 export class AuthMiddleware implements NestMiddleware {
   async use(req: Request, res: Response, next: NextFunction) {
     const authHeader = req.headers.authorization;
-    debugger;
+
     if (!authHeader) {
       throw new UnauthorizedException('Authorization header is missing');
     }

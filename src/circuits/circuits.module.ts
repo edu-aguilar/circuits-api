@@ -23,7 +23,10 @@ export class CircuitsModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(AuthMiddleware)
-      .exclude({ path: 'circuits', method: RequestMethod.GET }, 'circuits/(.*)')
+      .exclude(
+        { path: 'circuits', method: RequestMethod.GET },
+        { path: 'circuits/:id', method: RequestMethod.GET },
+      )
       .forRoutes(CircuitsController);
   }
 }

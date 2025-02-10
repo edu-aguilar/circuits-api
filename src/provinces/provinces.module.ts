@@ -23,7 +23,7 @@ export class ProvincesModule implements NestModule {
       .apply(AuthMiddleware)
       .exclude(
         { path: 'provinces', method: RequestMethod.GET },
-        'provinces/(.*)',
+        { path: 'provinces/:id', method: RequestMethod.GET },
       )
       .forRoutes(ProvincesController);
   }

@@ -21,7 +21,10 @@ export class RegionsModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(AuthMiddleware)
-      .exclude({ path: 'regions', method: RequestMethod.GET }, 'regions/(.*)')
+      .exclude(
+        { path: 'regions', method: RequestMethod.GET },
+        { path: 'regions/:id', method: RequestMethod.GET },
+      )
       .forRoutes(RegionsController);
   }
 }
