@@ -20,19 +20,35 @@ export class AuthMiddleware implements NestMiddleware {
       throw new UnauthorizedException('Invalid token format');
     }
 
-    protectRoute(req, res, (error) => {
-      if (error) {
-        // this throws kills the API. investigate it
-        throw new UnauthorizedException('Unauthorized', error.message);
-      }
+    try {
+      await this.handleProtectRoute(req, res);
+      await this.handleGetUser(req, res);
+      next();
+    } catch (error) {
+      next(new UnauthorizedException(error?.message || 'Unauthorized'));
+    }
+  }
 
+  private handleProtectRoute(req: Request, res: Response): Promise<void> {
+    return new Promise((resolve, reject) => {
+      protectRoute(req, res, (error) => {
+        if (error) {
+          reject(new UnauthorizedException('Unauthorized: ' + error.message));
+        } else {
+          resolve();
+        }
+      });
+    });
+  }
+
+  private handleGetUser(req: Request, res: Response): Promise<void> {
+    return new Promise((resolve, reject) => {
       getUser(req, res, (error) => {
         if (error) {
-          // this throws kills the API. investigate it
-          throw new UnauthorizedException('Unauthorized', error.message);
+          reject(new UnauthorizedException('Unauthorized: ' + error.message));
+        } else {
+          resolve();
         }
-
-        next();
       });
     });
   }
