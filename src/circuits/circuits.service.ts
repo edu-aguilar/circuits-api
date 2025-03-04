@@ -45,7 +45,7 @@ export class CircuitsService {
     if (circuitFilterQuery.provinceId) {
       query.provinceId = circuitFilterQuery.provinceId;
     }
-    if (circuitFilterQuery.regionId) {
+    if (circuitFilterQuery.regionId && !circuitFilterQuery.provinceId) {
       const provincesInRegion = await this.getProvincesByRegion(
         circuitFilterQuery.regionId,
       );
